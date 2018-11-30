@@ -12,12 +12,16 @@ namespace Booky.Controllers
 {
     public class GenresController : Controller
     {
-        private ApplicationDbContext db = new ApplicationDbContext();
+        private ApplicationDbContext _context;
+        public GenresController()
+        {
+            _context = new ApplicationDbContext();
+        }
 
         // GET: Genres
         public ActionResult Index()
         {
-            return View(db.Genres.ToList());
+            return View(_context.Genres.ToList());
         }
 
         // GET: Genres/Details/5
@@ -27,7 +31,7 @@ namespace Booky.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Genre genre = db.Genres.Find(id);
+            Genre genre = _context.Genres.Find(id);
             if (genre == null)
             {
                 return HttpNotFound();
@@ -50,8 +54,8 @@ namespace Booky.Controllers
         {
             if (ModelState.IsValid)
             {
-                db.Genres.Add(genre);
-                db.SaveChanges();
+                _context.Genres.Add(genre);
+                _context.SaveChanges();
                 return RedirectToAction("Index");
             }
 
@@ -65,7 +69,7 @@ namespace Booky.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Genre genre = db.Genres.Find(id);
+            Genre genre = _context.Genres.Find(id);
             if (genre == null)
             {
                 return HttpNotFound();
@@ -82,8 +86,8 @@ namespace Booky.Controllers
         {
             if (ModelState.IsValid)
             {
-                db.Entry(genre).State = EntityState.Modified;
-                db.SaveChanges();
+                _context.Entry(genre).State = EntityState.Modified;
+                _context.SaveChanges();
                 return RedirectToAction("Index");
             }
             return View(genre);
@@ -96,7 +100,7 @@ namespace Booky.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Genre genre = db.Genres.Find(id);
+            Genre genre = _context.Genres.Find(id);
             if (genre == null)
             {
                 return HttpNotFound();
@@ -109,9 +113,9 @@ namespace Booky.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(byte id)
         {
-            Genre genre = db.Genres.Find(id);
-            db.Genres.Remove(genre);
-            db.SaveChanges();
+            Genre genre = _context.Genres.Find(id);
+            _context.Genres.Remove(genre);
+            _context.SaveChanges();
             return RedirectToAction("Index");
         }
 
@@ -119,7 +123,7 @@ namespace Booky.Controllers
         {
             if (disposing)
             {
-                db.Dispose();
+                _context.Dispose();
             }
             base.Dispose(disposing);
         }

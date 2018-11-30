@@ -12,12 +12,16 @@ namespace Booky.Controllers
 {
     public class CustomersController : Controller
     {
-        private ApplicationDbContext db = new ApplicationDbContext();
+        private ApplicationDbContext _context;
+        public CustomersController()
+        {
+            _context = new ApplicationDbContext();
+        }
 
         // GET: Customers
         public ActionResult Index()
         {
-            return View(db.Customers.ToList());
+            return View(_context.Customers.ToList());
         }
 
         // GET: Customers/Details/5
@@ -27,7 +31,7 @@ namespace Booky.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Customer customer = db.Customers.Find(id);
+            Customer customer = _context.Customers.Find(id);
             if (customer == null)
             {
                 return HttpNotFound();
@@ -50,8 +54,8 @@ namespace Booky.Controllers
         {
             if (ModelState.IsValid)
             {
-                db.Customers.Add(customer);
-                db.SaveChanges();
+                _context.Customers.Add(customer);
+                _context.SaveChanges();
                 return RedirectToAction("Index");
             }
 
@@ -65,7 +69,7 @@ namespace Booky.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Customer customer = db.Customers.Find(id);
+            Customer customer = _context.Customers.Find(id);
             if (customer == null)
             {
                 return HttpNotFound();
@@ -82,8 +86,8 @@ namespace Booky.Controllers
         {
             if (ModelState.IsValid)
             {
-                db.Entry(customer).State = EntityState.Modified;
-                db.SaveChanges();
+                _context.Entry(customer).State = EntityState.Modified;
+                _context.SaveChanges();
                 return RedirectToAction("Index");
             }
             return View(customer);
@@ -96,7 +100,7 @@ namespace Booky.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Customer customer = db.Customers.Find(id);
+            Customer customer = _context.Customers.Find(id);
             if (customer == null)
             {
                 return HttpNotFound();
@@ -109,9 +113,9 @@ namespace Booky.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
-            Customer customer = db.Customers.Find(id);
-            db.Customers.Remove(customer);
-            db.SaveChanges();
+            Customer customer = _context.Customers.Find(id);
+            _context.Customers.Remove(customer);
+            _context.SaveChanges();
             return RedirectToAction("Index");
         }
 
@@ -119,7 +123,7 @@ namespace Booky.Controllers
         {
             if (disposing)
             {
-                db.Dispose();
+                _context.Dispose();
             }
             base.Dispose(disposing);
         }

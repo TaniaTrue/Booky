@@ -12,12 +12,16 @@ namespace Booky.Controllers
 {
     public class AuthorsController : Controller
     {
-        private ApplicationDbContext db = new ApplicationDbContext();
+        private ApplicationDbContext _context;
+        public AuthorsController()
+        {
+            _context = new ApplicationDbContext();
+        }
 
         // GET: Authors
         public ActionResult Index()
         {
-            return View(db.Authors.ToList());
+            return View(_context.Authors.ToList());
         }
 
         // GET: Authors/Details/5
@@ -27,7 +31,7 @@ namespace Booky.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Author author = db.Authors.Find(id);
+            Author author = _context.Authors.Find(id);
             if (author == null)
             {
                 return HttpNotFound();
@@ -50,8 +54,8 @@ namespace Booky.Controllers
         {
             if (ModelState.IsValid)
             {
-                db.Authors.Add(author);
-                db.SaveChanges();
+                _context.Authors.Add(author);
+                _context.SaveChanges();
                 return RedirectToAction("Index");
             }
 
@@ -65,7 +69,7 @@ namespace Booky.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Author author = db.Authors.Find(id);
+            Author author = _context.Authors.Find(id);
             if (author == null)
             {
                 return HttpNotFound();
@@ -82,8 +86,8 @@ namespace Booky.Controllers
         {
             if (ModelState.IsValid)
             {
-                db.Entry(author).State = EntityState.Modified;
-                db.SaveChanges();
+                _context.Entry(author).State = EntityState.Modified;
+                _context.SaveChanges();
                 return RedirectToAction("Index");
             }
             return View(author);
@@ -96,7 +100,7 @@ namespace Booky.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Author author = db.Authors.Find(id);
+            Author author = _context.Authors.Find(id);
             if (author == null)
             {
                 return HttpNotFound();
@@ -109,9 +113,9 @@ namespace Booky.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
-            Author author = db.Authors.Find(id);
-            db.Authors.Remove(author);
-            db.SaveChanges();
+            Author author = _context.Authors.Find(id);
+            _context.Authors.Remove(author);
+            _context.SaveChanges();
             return RedirectToAction("Index");
         }
 
@@ -119,7 +123,7 @@ namespace Booky.Controllers
         {
             if (disposing)
             {
-                db.Dispose();
+                _context.Dispose();
             }
             base.Dispose(disposing);
         }

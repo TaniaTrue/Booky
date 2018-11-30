@@ -12,12 +12,16 @@ namespace Booky.Controllers
 {
     public class BooksController : Controller
     {
-        private ApplicationDbContext db = new ApplicationDbContext();
+        private ApplicationDbContext _context;
+        public BooksController()
+        {
+            _context = new ApplicationDbContext();
+        }
 
         // GET: Books
         public ActionResult Index()
         {
-            var books = db.Books.Include(b => b.Author);
+            var books = _context.Books.Include(b => b.Author);
             return View(books.ToList());
         }
 
@@ -28,7 +32,7 @@ namespace Booky.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Book book = db.Books.Find(id);
+            Book book = _context.Books.Find(id);
             if (book == null)
             {
                 return HttpNotFound();
@@ -39,7 +43,7 @@ namespace Booky.Controllers
         // GET: Books/Create
         public ActionResult Create()
         {
-            ViewBag.AuthorId = new SelectList(db.Authors, "AuthorId", "FirstName");
+            ViewBag.AuthorId = new SelectList(_context.Authors, "AuthorId", "FirstName");
             return View();
         }
 
@@ -52,12 +56,12 @@ namespace Booky.Controllers
         {
             if (ModelState.IsValid)
             {
-                db.Books.Add(book);
-                db.SaveChanges();
+                _context.Books.Add(book);
+                _context.SaveChanges();
                 return RedirectToAction("Index");
             }
 
-            ViewBag.AuthorId = new SelectList(db.Authors, "AuthorId", "FirstName", book.AuthorId);
+            ViewBag.AuthorId = new SelectList(_context.Authors, "AuthorId", "FirstName", book.AuthorId);
             return View(book);
         }
 
@@ -68,12 +72,12 @@ namespace Booky.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Book book = db.Books.Find(id);
+            Book book = _context.Books.Find(id);
             if (book == null)
             {
                 return HttpNotFound();
             }
-            ViewBag.AuthorId = new SelectList(db.Authors, "AuthorId", "FirstName", book.AuthorId);
+            ViewBag.AuthorId = new SelectList(_context.Authors, "AuthorId", "FirstName", book.AuthorId);
             return View(book);
         }
 
@@ -86,11 +90,11 @@ namespace Booky.Controllers
         {
             if (ModelState.IsValid)
             {
-                db.Entry(book).State = EntityState.Modified;
-                db.SaveChanges();
+                _context.Entry(book).State = EntityState.Modified;
+                _context.SaveChanges();
                 return RedirectToAction("Index");
             }
-            ViewBag.AuthorId = new SelectList(db.Authors, "AuthorId", "FirstName", book.AuthorId);
+            ViewBag.AuthorId = new SelectList(_context.Authors, "AuthorId", "FirstName", book.AuthorId);
             return View(book);
         }
 
@@ -101,7 +105,7 @@ namespace Booky.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Book book = db.Books.Find(id);
+            Book book = _context.Books.Find(id);
             if (book == null)
             {
                 return HttpNotFound();
@@ -114,9 +118,9 @@ namespace Booky.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
-            Book book = db.Books.Find(id);
-            db.Books.Remove(book);
-            db.SaveChanges();
+            Book book = _context.Books.Find(id);
+            _context.Books.Remove(book);
+            _context.SaveChanges();
             return RedirectToAction("Index");
         }
 
@@ -124,7 +128,7 @@ namespace Booky.Controllers
         {
             if (disposing)
             {
-                db.Dispose();
+                _context.Dispose();
             }
             base.Dispose(disposing);
         }
