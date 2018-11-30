@@ -18,5 +18,8 @@ namespace Booky.Models
         public byte NumberInStock { get; set; }
 
         public byte NumberAvailable { get; set; }
+
+        public ICollection<Genre> Genres { get; set; }
+
     }
 }
