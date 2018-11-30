@@ -22,6 +22,8 @@ namespace Booky.Models
     {
         public DbSet<Book> Books { get; set; }
         public DbSet<Customer> Customers { get; set; }
+        public DbSet<Author> Authors { get; set; }
+
         public ApplicationDbContext()
             : base("DefaultConnection", throwIfV1Schema: false)
         {

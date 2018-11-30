@@ -217,8 +217,17 @@
     <Compile Include="Migrations\201811301403135_PopulateGenre.Designer.cs">
       <DependentUpon>201811301403135_PopulateGenre.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201811301426212_ExtendedModel.cs" />
+    <Compile Include="Migrations\201811301426212_ExtendedModel.Designer.cs">
+      <DependentUpon>201811301426212_ExtendedModel.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201811301436154_AppliedDataAnnotations.cs" />
+    <Compile Include="Migrations\201811301436154_AppliedDataAnnotations.Designer.cs">
+      <DependentUpon>201811301436154_AppliedDataAnnotations.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
+    <Compile Include="Models\Author.cs" />
     <Compile Include="Models\Book.cs" />
     <Compile Include="Models\Customer.cs" />
     <Compile Include="Models\Genre.cs" />
@@ -310,6 +319,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201811301403135_PopulateGenre.resx">
       <DependentUpon>201811301403135_PopulateGenre.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201811301426212_ExtendedModel.resx">
+      <DependentUpon>201811301426212_ExtendedModel.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201811301436154_AppliedDataAnnotations.resx">
+      <DependentUpon>201811301436154_AppliedDataAnnotations.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
