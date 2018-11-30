@@ -33,5 +33,7 @@ namespace Booky.Models
         {
             return new ApplicationDbContext();
         }
+
+        public System.Data.Entity.DbSet<Booky.Models.Genre> Genres { get; set; }
     }
 }
